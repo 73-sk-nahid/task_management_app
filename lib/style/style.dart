@@ -49,6 +49,15 @@ TextStyle Head7Text(textColor){
   );
 }
 
+TextStyle Head8Text(textColor){
+  return TextStyle(
+      color: textColor,
+      fontSize: 13,
+      fontFamily: 'poppins',
+      fontWeight: FontWeight.w600
+  );
+}
+
 TextStyle Head9Text(textColor){
   return TextStyle(
       color: textColor,
@@ -155,6 +164,20 @@ Ink SuccessButtonChild(String ButtonText){
       child: Text(
         ButtonText, style: ButtonTextStyle(),
       ),
+    ),
+  );
+}
+
+Ink ArrowButton(){
+  return Ink(
+    decoration: BoxDecoration(
+      color: colorGreen,
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: Container(
+      height: 45,
+      alignment: Alignment.center,
+      child: const Icon(Icons.arrow_circle_right_outlined, color: colorWhite,),
     ),
   );
 }

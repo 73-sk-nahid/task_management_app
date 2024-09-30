@@ -184,8 +184,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               onPressed: (){
                                 FormOnSubmit();
                               },
-                              child: SuccessButtonChild("Registration"),
+                              child: ArrowButton(),
                           style: AppButtonStyle(),),
+                          SizedBox(height: 5,),
+                          TextButton(
+                              onPressed: (){
+                                Navigator.pushNamedAndRemoveUntil(context, "/login", (route)=> false);
+                              },
+                              child: RichText(text: TextSpan(
+                                  text: "Have account? ", style: Head8Text(colorBlack,),
+                                  children: [
+                                    TextSpan(
+                                      text: "Sign In", style: Head7Text(colorGreen),
+                                    )
+                                  ]
+                              ))),
                         ],
                       ),
                     ),

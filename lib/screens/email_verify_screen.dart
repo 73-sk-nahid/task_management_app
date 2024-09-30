@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_app/api/api_client.dart';
 import 'package:task_management_app/style/style.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({super.key});
 
   @override
-  State<EmailVerifyScreen> createState() => _PinVerifyPageState();
+  State<EmailVerifyScreen> createState() => _EmailVerifyScreenState();
 }
 
-class _PinVerifyPageState extends State<EmailVerifyScreen> {
+class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   bool _isLoading = false;
   Map<String, String> FormValues = {
     "email":""
@@ -33,11 +34,10 @@ class _PinVerifyPageState extends State<EmailVerifyScreen> {
     }
     else {
       setState(() {_isLoading=true;});
-      // bool res=await LoginRequest(FormValues);
-      bool res = true;
+      bool res=await VerifyEmailRequest(FormValues["email"]);
       if(res==true){
-        SuccessToast("An OTP sent to your email....");
-        // Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+        // SuccessToast("An OTP sent to your email....");
+        Navigator.pushNamedAndRemoveUntil(context, "/pinVerify", (route) => false);
       }
       else{
         setState(() {_isLoading=false;});
@@ -82,7 +82,7 @@ class _PinVerifyPageState extends State<EmailVerifyScreen> {
                                 onPressed: (){
                                   FormOnSubmit();
                                 },
-                                child: SuccessButtonChild("Sent OTP"),
+                                child: ArrowButton(),
                             style: AppButtonStyle(),),
                           ],
                         ),

@@ -12,17 +12,27 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
 
   Map<String, String> FormValues = {
     "email": "",
     "password": "",
   };
 
-  ItemOnChange(MapKey, TextValue) {
+  void togglePasswordVisibility() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+
+  ItemOnChange(MapKey, TextValue) async{
     setState(() {
       FormValues.update(MapKey, (value) => TextValue);
     });
   }
+
+
 
   FormOnSubmit() async{
     // Email validation with a regex
@@ -43,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       bool res=await LoginRequest(FormValues);
       if(res==true){
         // SuccessToast("Hurrah! Your Login is in processing....");
-        Navigator.pushNamedAndRemoveUntil(context, "/registration", (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
       }
       else{
         setState(() {_isLoading=false;});
@@ -92,7 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 20.0,
                           ),
                           TextFormField(
-                            decoration: AppInputDecoration("Password"),
+                            obscureText: !_isPasswordVisible,
+                            decoration: PasswordInputDecoration("Password", _isPasswordVisible, togglePasswordVisibility, context),
                             onChanged: (TextValue) {
                               ItemOnChange("password", TextValue);
                             },
@@ -104,9 +115,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               FormOnSubmit();
                             },
-                            child: SuccessButtonChild("Log In"),
+                            child: ArrowButton(),
                             style: AppButtonStyle(),
                           ),
+                          SizedBox(height: 20,),
+                          TextButton(
+                              onPressed: (){
+                                Navigator.pushNamedAndRemoveUntil(context, "/mailVerify", (route)=> false);
+                              },
+                              child: Text(
+                                "Forget Password?", style: Head7Text(colorDarkBlue),
+                              ),),
+                          TextButton(
+                              onPressed: (){
+                                Navigator.pushNamedAndRemoveUntil(context, "/registration", (route)=> false);
+                              }, 
+                              child: RichText(text: TextSpan(
+                                text: "Don't have account? ", style: Head8Text(colorBlack,),
+                                children: [
+                                  TextSpan(
+                                    text: "Sign Up", style: Head7Text(colorGreen),
+                                  )
+                                ]
+                              ))),
                         ],
                       ),
                     ),
