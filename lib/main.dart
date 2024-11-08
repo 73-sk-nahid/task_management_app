@@ -18,7 +18,7 @@ void main() async{
   // else {
   //   runApp(MyApp("/"));
   // }
-  runApp(MyApp("/mailVerify"));
+  runApp(MyApp("/login"));
 }
 
 class MyApp extends StatelessWidget {

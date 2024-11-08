@@ -143,6 +143,14 @@ ButtonStyle AppButtonStyle(){
   );
 }
 
+ButtonStyle AppStatusButtonStyle(btnColor){
+  return ElevatedButton.styleFrom(
+    elevation: 1,
+    padding: EdgeInsets.zero,
+    backgroundColor: btnColor,
+  );
+}
+
 TextStyle ButtonTextStyle(){
   return const TextStyle(
     fontSize: 15,
@@ -167,6 +175,20 @@ Ink SuccessButtonChild(String ButtonText){
     ),
   );
 }
+
+Container StatusChild(statusText,statusColor){
+  return  Container(
+    alignment: Alignment.center,
+    child:Text(statusText,style: TextStyle(color: colorWhite,fontSize: 10,fontWeight: FontWeight.w400)),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      color: statusColor,
+    ),
+    height: 20,
+    width: 60,
+  );
+}
+
 
 Ink ArrowButton(){
   return Ink(

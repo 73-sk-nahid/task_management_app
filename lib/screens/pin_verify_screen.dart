@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_management_app/api/api_client.dart';
 import 'package:task_management_app/style/style.dart';
+import 'package:task_management_app/utility/utility.dart';
 
 class PinVerifyScreen extends StatefulWidget {
   const PinVerifyScreen({super.key});
@@ -27,11 +29,10 @@ class _PinVerifyScreenState extends State<PinVerifyScreen> {
       setState(() {
         _isLoading = true;
       });
-      // bool res=await LoginRequest(FormValues);
-      bool res = true;
+      String? Email = await GetUserDetails("emailVerify");
+      bool res = await VerifyOTPRequest(Email, FormValues["otp"]);
       if (res == true) {
-        SuccessToast("OTP match successful....");
-        // Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
       } else {
         setState(() {
           _isLoading = false;

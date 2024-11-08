@@ -50,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     else {
       setState(() {_isLoading=true;});
+      print(FormValues);
       bool res=await LoginRequest(FormValues);
       if(res==true){
         // SuccessToast("Hurrah! Your Login is in processing....");
@@ -60,7 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
-
 
 
   @override

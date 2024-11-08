@@ -3,11 +3,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> SaveUserToken(UserData) async{
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString("token", UserData["token"]);
+  print("user token saved successfully");
 }
 
 Future<void> WriteEmailVerification(Email) async{
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString("emailVerify", Email);
+}
+
+Future<void> WriteOTPVerification(OTP) async{
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString("OTPVerification", OTP);
 }
 
 Future<String?> ReadUserToken() async {

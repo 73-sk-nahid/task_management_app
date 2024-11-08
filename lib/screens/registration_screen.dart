@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:task_management_app/style/style.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../api/api_client.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -24,6 +27,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isPasswordVisible = false;
   bool _isCPasswordVisible = false;
 
+  String? _defaultImage = dotenv.env['defaultImage'];
+
   void togglePasswordVisibility() {
     setState(() {
       _isPasswordVisible = !_isPasswordVisible;
@@ -37,7 +42,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   InputOnChange(MapKey, TextValue) {
     setState(() {
-      FormValues.update(MapKey, (value) => TextValue);
+      // FormValues.update(MapKey, (value) => TextValue);
+      FormValues[MapKey] = TextValue;
     });
   }
 
@@ -81,9 +87,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     else{
       setState(() {_isLoading=true;});
       bool res=await RegistrationRequest(FormValues);
-      // bool res = true;
+      print(FormValues);
+      //bool res = false;
       if(res==true){
-        // SuccessToast("Hurrah! Your registration is in processing....");
+        SuccessToast("Hurrah! Your registration is in processing....");
         Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
       }
       else{
@@ -91,6 +98,89 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       }
     }
   }
+
+  //add image part
+  // File? _image;
+  // String? _base64Image;
+  //
+  // final ImagePicker _picker = ImagePicker();
+  //
+  // //method to pick an image from the gallery
+  // Future<void> _pickImageFromGallery() async{
+  //   final XFile? pickImage = await _picker.pickImage(source: ImageSource.gallery);
+  //
+  //   if(pickImage != null){
+  //     setState(() {
+  //       _image = File(pickImage.path);
+  //       _convertImageToBase64();
+  //     });
+  //   }
+  // }
+  //
+  // Future<void> _pickImageUsingCamera() async{
+  //   final XFile? pickImage = await _picker.pickImage(source: ImageSource.camera);
+  //
+  //   if(pickImage != null){
+  //     setState(() {
+  //       _image = File(pickImage.path);
+  //       _convertImageToBase64();
+  //     });
+  //   }
+  // }
+  //
+  // // Show popup dialog for image picking options
+  // Future<void> showOptions() async {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: Text("Choose an option"),
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: <Widget>[
+  //           ListTile(
+  //             leading: Icon(Icons.photo_library),
+  //             title: Text('Photo Gallery'),
+  //             onTap: () {
+  //               Navigator.of(context).pop(); // Close the popup
+  //               _pickImageFromGallery(); // Get image from gallery
+  //             },
+  //           ),
+  //           ListTile(
+  //             leading: Icon(Icons.camera_alt),
+  //             title: Text('Camera'),
+  //             onTap: () {
+  //               Navigator.of(context).pop(); // Close the popup
+  //               _pickImageUsingCamera(); // Get image from camera
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //       actions: [
+  //         TextButton(
+  //           child: Text("Cancel"),
+  //           onPressed: () {
+  //             Navigator.of(context).pop(); // Close the popup without action
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // void _convertImageToBase64() async{
+  //   if(_image != null){
+  //     final bytes = await _image!.readAsBytes();
+  //     setState(() {
+  //       _base64Image = base64Encode(bytes);
+  //       InputOnChange('lastName', _base64Image);
+  //     });
+  //   }
+  //   else{
+  //     setState(() {
+  //       InputOnChange('lastName', _defaultImage);
+  //     });
+  //   }
+  // }
 
 
   @override
@@ -110,16 +200,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Join with us',
-                              style: Head1Text(colorBlack),
-                            ),
+                          Text(
+                            'Join with us',
+                            style: Head1Text(colorBlack),
                           ),
                           SizedBox(
                             height: 20,
                           ),
+                          // GestureDetector(
+                          //   onTap: showOptions,
+                          //   child: CircleAvatar(
+                          //     radius: 40,
+                          //     backgroundColor: colorLightGray,
+                          //     child: _image == null ? Icon(Icons.add_a_photo, size: 40, color: colorWhite,):
+                          //     null,
+                          //     backgroundImage: _image != null ? FileImage(_image!) : null,
+                          //   ),
+                          // ),
+                          // SizedBox(height: 20,),
                           TextFormField(
                             decoration: AppInputDecoration("Email"),
                             onChanged: (TextValue) {
